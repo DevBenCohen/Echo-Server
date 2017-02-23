@@ -1,5 +1,9 @@
 from socket import *
+from Tkinter import *
 
+root = Tk()
+listbox = Listbox(root,)
+listbox.pack()
 f = open("C:\\Users\user\Desktop\Details.txt", "r")
 file = f.read()
 details = file.split("\n")
@@ -14,6 +18,8 @@ ADDR = (HOST, PORT)
 
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
 tcpCliSock.connect(ADDR)
+
+root.mainloop()
 
 while 1:
     data = raw_input(">")

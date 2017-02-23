@@ -18,7 +18,7 @@ def get_open_port():
 
 def save_information(serversock):
     import socket
-    f = open("C:\\Users\Ben\Desktop\Details.txt", "w")
+    f = open("C:\\Users\user\Desktop\Details.txt", "w")
     f.write("pass123"+"\n"+str(PORT)+"\n"+get_ip())
 
 def Set_A_Timer():
