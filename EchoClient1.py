@@ -11,7 +11,11 @@ root.title("Inputs and Outputs")
 root.geometry("500x350")
 root.resizable(width=FALSE, height=FALSE)
 listbox = Listbox(root, font=fnt)
-listbox.pack(expand="YES", fill = "both")
+listbox.see(END)
+listbox.pack(side=LEFT,expand="YES", fill="both")
+scrollbar = Scrollbar(root, orient=VERTICAL)
+scrollbar.config(command=listbox.yview)
+scrollbar.pack(side=RIGHT, fill =Y)
 
 f = open("C:\\Users\user\Desktop\Details.txt", "r")
 file = f.read()
@@ -34,7 +38,7 @@ try:
         listbox.itemconfig(END, bg="#eeeeee")
         if not data: break
         tcpCliSock.send(data)
-        data = tcpCliSock.recv(BUFSIZ)d
+        data = tcpCliSock.recv(BUFSIZ)
         if not data: break
         if data == "exit": break
         listbox.insert(END,data)
