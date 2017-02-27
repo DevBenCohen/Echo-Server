@@ -52,7 +52,7 @@ serversock = socket(AF_INET, SOCK_STREAM)
 serversock.bind(ADDR)
 serversock.listen(2)
 save_information(serversock)
-print "Type This into the Client:\n IP = get_ip\n PORT = "+str(PORT)
+print "Type This into the Client:\n IP = "+str(get_ip())+"\n PORT = "+str(PORT)
 
 while 1:
     print 'waiting for connection...'

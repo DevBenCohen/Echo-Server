@@ -21,16 +21,20 @@ f = open("C:\\Users\Ben\Desktop\Details.txt", "r")
 file = f.read()
 details = file.split("\n")
 password = details[0]
-free_port = details[1]
-s_ip = details[2]
 
-HOST = str(s_ip)
-PORT = int(free_port)
-BUFSIZ = 1024
-ADDR = (HOST, PORT)
 
-tcpCliSock = socket(AF_INET, SOCK_STREAM)
-tcpCliSock.connect(ADDR)
+server_ip = raw_input("Please enter the IP adress of the server: ")
+free_port = raw_input("Please enter the Port of the server: ")
+try:
+    HOST = str(server_ip)
+    PORT = int(free_port)
+    BUFSIZ = 1024
+    ADDR = (HOST, PORT)
+    tcpCliSock = socket(AF_INET, SOCK_STREAM)
+    tcpCliSock.connect(ADDR)
+except:
+    print "invalid server"
+
 try:
     while 1:
         data = raw_input(">")
