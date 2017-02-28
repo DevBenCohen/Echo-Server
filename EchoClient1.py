@@ -1,55 +1,49 @@
 from socket import *
 from Tkinter import *
-import tkFont
 
-def close_tkwindow(root):
+
+def close_program():
     root.destroy()
 
+
+def print_input():
+    data = input_entry.get()
+    input_entry.delete(0, END)
+    listbox.insert(END, ">" + data)
+    print "works"
+    if not data or data == "exit":
+        close_program()
+    tcpCliSock.send(data)
+    output = tcpCliSock.recv(BUFSIZ)
+    listbox.insert(END, output)
+    listbox.see(END)
+
+
+server_ip = raw_input("Please enter the IP address of the server: ")
+free_port = raw_input("Please enter the Port of the server: ")
+
+HOST = str(server_ip)
+PORT = int(free_port)
+BUFSIZ = 1024
+ADDR = (HOST, PORT)
+tcpCliSock = socket(AF_INET, SOCK_STREAM)
+tcpCliSock.connect(ADDR)
+print "connected"
+
 root = Tk()
-fnt = tkFont.Font(family="Fira Code", size=16)
 root.title("Inputs and Outputs")
 root.geometry("500x350")
 root.resizable(width=FALSE, height=FALSE)
-listbox = Listbox(root, font=fnt)
-listbox.see(END)
-listbox.pack(side=LEFT,expand="YES", fill="both")
+frame = Frame(root)
 scrollbar = Scrollbar(root, orient=VERTICAL)
+scrollbar.pack(in_=frame, side=RIGHT, fill=Y)
+listbox = Listbox(root, yscrollcommand=scrollbar.set)
+listbox.pack(in_=frame)
 scrollbar.config(command=listbox.yview)
-scrollbar.pack(side=RIGHT, fill =Y)
+frame.grid(row=3, column=0, sticky=W)
+input_entry = Entry(root)
+input_entry.grid(row=0, column=0, sticky=W)
+send_data_btn = Button(root, text="SEND DATA", command=print_input)
+send_data_btn.grid(row=0, column=1)
+root.mainloop()
 
-f = open("C:\\Users\Ben\Desktop\Details.txt", "r")
-file = f.read()
-details = file.split("\n")
-password = details[0]
-
-
-server_ip = raw_input("Please enter the IP adress of the server: ")
-free_port = raw_input("Please enter the Port of the server: ")
-try:
-    HOST = str(server_ip)
-    PORT = int(free_port)
-    BUFSIZ = 1024
-    ADDR = (HOST, PORT)
-    tcpCliSock = socket(AF_INET, SOCK_STREAM)
-    tcpCliSock.connect(ADDR)
-except:
-    print "invalid server"
-
-try:
-    while 1:
-        data = raw_input(">")
-        listbox.insert(END,">"+data)
-        listbox.itemconfig(END, bg="#336d9d")
-        if not data: break
-        tcpCliSock.send(data)
-        data = tcpCliSock.recv(BUFSIZ)
-        if not data: break
-        if data == "exit": break
-        listbox.insert(END,data)
-        listbox.itemconfig(END, bg ="#ffd847")
-
-    root.close_tkwindow()
-    tcpCliSock.close()
-    root.mainloop()
-except:
-    print "Finished"

@@ -1,12 +1,13 @@
 from socket import *
-import threading
 import thread
 import datetime
 import time
 
+
 def get_ip():
     import socket
     return socket.gethostbyname(socket.getfqdn())
+
 
 def get_open_port():
     s = socket(AF_INET, SOCK_STREAM)
@@ -16,21 +17,24 @@ def get_open_port():
     s.close()
     return port
 
+
 def save_information(serversock):
     import socket
     f = open("C:\\Users\Ben\Desktop\Details.txt", "w")
     f.write("pass123"+"\n"+str(PORT)+"\n"+get_ip())
 
-def Set_A_Timer():
+
+def set_timer():
     clientsock.send("How much time in seconds? ")
     data = clientsock.recv(BUFSIZ)
     try:
         time.sleep(int(data))
         return"Timer Done"
     except:
-        return ("Invalid Input, Going back for the echo function")
+        return "Invalid Input, Going back for the echo function"
 
-def handler(clientsock,addr):
+
+def handler(clientsock, addr):
     while 1:
         data = clientsock.recv(BUFSIZ)
         print data
@@ -59,4 +63,3 @@ while 1:
     clientsock, addr = serversock.accept()
     print '...connected from:', addr
     thread.start_new_thread(handler, (clientsock, addr))
-serversock.close()
